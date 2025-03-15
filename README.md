@@ -1,40 +1,38 @@
 # Subreddit Classification
 
-Author: Clement Ow
-
 ### Contents:
-- [Problem Statement](#Problem-Statement)
-- [Executive Summary](#Executive-Summary)
-- [Data Dictionary](#Data-Dictionary)
-- [Conclusions and Recommendations](#Conclusions-and-Recommendations)
+- [Problem Statement](#problem-statement)
+- [Executive Summary](#executive-summary)
+- [Data Dictionary](#data-dictionary)
+- [Conclusions and Recommendations](#conclusions-and-recommendations)
 
 ## Problem Statement
 
-Assuming the production instance of Reddit went down recently which led to many posts getting stuck in the queue to be processed. Unfortunately, at the juncture when the Subreddit tag was to be tagged to the post, the system went down and thus was not able to tag the post successfully. The aim of this project is to then classify a post back into the correct Subreddit in the most accurate manner by using machine learning and Natural Language Processing (NLP) techniques. This will be a binary classification problem consisting of posts from two Subreddits, _r/MentalHealth_ and _r/Psychology_.
+Recently, Reddit experienced a system outage that caused many posts to be stuck in the processing queue. Specifically, the system failed at the stage where Subreddit tags were being assigned to posts, leaving them untagged. The goal of this project is to accurately classify these posts back into their correct Subreddits using machine learning and Natural Language Processing (NLP) techniques. This will be a binary classification task involving posts from two Subreddits: _r/MentalHealth_ and _r/Psychology_.
 
-_r/MentalHealth_ and _r/Psychology_ were chosen because it is neither too similar nor too different. There are overlapping topics and we can see if the accuracy of the classification is indeed going to be good or bad.
+These Subreddits were chosen because they share overlapping topics but are distinct enough to pose a meaningful classification challenge. By evaluating the accuracy of the classification, we can determine how well the model performs in distinguishing between the two.
 
-A few machine learning models will be going through supervised learning to be trained on existing data from each Subreddit. The model with the best accuracy will be the model of choice for this classification problem. This model can continue to train on new data for new posts to enhance its accuracy.
+Several machine learning models will be trained using supervised learning on existing data from each Subreddit. The model with the highest accuracy will be selected for this classification task. This model can then be continuously updated with new data to improve its performance over time.
 
 ## Executive Summary
 
-In recent years, there has been many cases of suicide rates increasing, mental health disorders skyrocketing and hitting millions of people in the world. Understanding the texts through NLP of two subreddits _r/MentalHealth_ and _r/Psychology_ are good starting points for a classification task.
+In recent years, there has been a significant rise in mental health issues, with increasing rates of suicide and mental health disorders affecting millions worldwide. Analyzing the text from two Subreddits, _r/MentalHealth_ and _r/Psychology_, using NLP techniques provides a valuable opportunity for a classification task.
 
-Data is gathered by scrapping posts from the two popular subreddits and then training the model on 75% of the data and subsequently the other 25% as the unseen test set to evaluate the model performance. The models used will be:
+Data was collected by scraping posts from these two Subreddits. The dataset was split, with 75% used for training the models and the remaining 25% reserved as a test set to evaluate performance. The following models were used:
 - Logistic Regression
 - Naive-Bayes Classifier
 - Random Forest Classifier
 
-After the training and testing phases, Logistic Regression performed the best in terms of the accuracy score. But in terms of the interpretability of the features and that it includes nearby words as well, **Naive-Bayes Classifer** is ultimately the model of choice for this classification problem. Misclassification rate is also relatively low and they are mostly due to uncontrollable factors wherein the posts that usually appears in _r/Psychology_ appeared in _r/MentalHealth_ and vice versa.
+After training and testing, Logistic Regression achieved the highest accuracy score. However, considering interpretability and the ability to capture contextual relationships between words, the **Naive-Bayes Classifier** emerged as the preferred model for this classification problem. The misclassification rate was relatively low, with most errors arising from posts that could reasonably belong to either Subreddit.
 
-However, to truly increase the performance of the model, further research on understanding texts through linguistic features and contextualisation would need to be performed. Identifying and inputting more features into the model can also aid in increasing accuracy scores as well. Ultimately, to further tune the model we have to use an interpretable model in either Logistic Regression or Naive-Bayes Classifier to read the results to ensure it makes sense apart from just the accuracy scores.    
+To further enhance model performance, future work could focus on incorporating linguistic features and contextual understanding of text. Adding more features, such as sentiment analysis or post length, could also improve accuracy. Ultimately, an interpretable model like Logistic Regression or Naive-Bayes is essential for ensuring that the results are not only accurate but also meaningful.
 
 ## Data Dictionary
 
 | Field     | Type   | Description                                                         |
 |-----------|--------|---------------------------------------------------------------------|
-| title_txt | string | The title and selftext of reddit post                               |
-| class     | int    | class = 1 refers to r/MentalHealth, class = 0 refers to r/Psychology |
+| title_txt | string | The title and selftext of a Reddit post                             |
+| class     | int    | class = 1 refers to _r/MentalHealth_, class = 0 refers to _r/Psychology_ |
 
 ## Conclusions and Recommendations
 
@@ -46,36 +44,32 @@ However, to truly increase the performance of the model, further research on und
 | Naive-Bayes         | 0.962          | 0.946      | 0.985         |
 | Random Forest       | 1.0            | 0.944      | 0.99          |
 
-The best model in terms of test score will be the Logistic Regression model with a relatively good ROC AUC score of 0.98 which is pretty close to the other models.
-
-However, the ultimate winner would be the __Naive-Bayes model__. Its test score is just shy of 0.02 at 0.946 which is pretty decent and this model generalises well and do not overfit the training data as compared to the others. One important point is that it greatly increases model result interpretability by clearly specifying the top features by subreddit. It recognised that some of the bigrams in each class are ranked higher in each class which is a further plus point. Furthermore, its ROC AUC score is slightly higher than that of Logistic Regression indicating that the two classes are quite well split.
+Logistic Regression achieved the highest test score and a strong ROC AUC score of 0.98, making it the best-performing model in terms of accuracy. However, the **Naive-Bayes Classifier** is the preferred choice due to its balance of performance and interpretability. With a test score of 0.946 and a slightly higher ROC AUC score of 0.985, Naive-Bayes generalizes well without overfitting. Additionally, it provides clear insights into the most important features for each Subreddit, including bigrams that are highly relevant to each class.
 
 ### Misclassifications
 
-The misclassification rate is relatively low at 26-27 out of close to 2000 posts depending on the model used.
+The misclassification rate was relatively low, with 26-27 errors out of nearly 2000 posts, depending on the model used. 
 
-Looking into some of them, they were misclassified due to the fact that the post was quite similar to redditors who post on the other subreddit. For example, in a False Negative case (when prediction was _r/Psychology_):
-> "U.S. Suicide Rates Are the Highest They've Been Since World War II \[U.S. suicide rates\] are at their highest since World War II, according to federal data‚and the opioid crisis, widespread social media use and high rates of stress may be among the myriad contributing factors.".
+For example, a False Negative case (predicted as _r/Psychology_ but actually from _r/MentalHealth_):
+> "U.S. Suicide Rates Are the Highest They've Been Since World War II \[U.S. suicide rates\] are at their highest since World War II, according to federal data‚and the opioid crisis, widespread social media use, and high rates of stress may be among the myriad contributing factors."
 
-Such a post usually appears on _r/Psychology_ and hence was misclassified as such.
+This post, which discusses suicide rates and contributing factors, is more typical of _r/Psychology_, leading to its misclassification.
 
-For the False Positive case (when the prediction was _r/MentalHealth_):
->"In light of the very tragic Connecticut Elementary School shootings, everyone is now bringing up gun control again. What no one is talking about (and never seems to talk about) is helping to increase mental health healthcare in the country.  And it's pissing me off.".
+In a False Positive case (predicted as _r/MentalHealth_ but actually from _r/Psychology_):
+> "In light of the very tragic Connecticut Elementary School shootings, everyone is now bringing up gun control again. What no one is talking about (and never seems to talk about) is helping to increase mental health healthcare in the country. And it's pissing me off."
 
-This post has alot of the author's feelings in it and thus makes the machine think that it is under _r/MentalHealth_ where redditors mostly pour our their feelings into their posts.
+This post, which expresses strong personal emotions, was misclassified as belonging to _r/MentalHealth_.
 
-There tends to be some anomalies as to the post structure and subjectivity that is posted to both subreddits. Since it is user driven community and as long as it does not flout any of the community guidelines the moderators will just let the post be.
+These misclassifications highlight the overlap in topics and the subjective nature of posts in both Subreddits. Since Reddit is a user-driven platform, posts often reflect the personal perspectives of their authors, leading to some ambiguity in classification.
 
 ### Assumptions
 
-- We are assuming that the models will treat each word as an independent variable.
-- The bag of words approach is a good indicator for prediction.  
-- We do not want to penalise document frequency as we are not doing Information Retrieval tasks.
+- Each word is treated as an independent variable by the models.
+- The bag-of-words approach is a suitable method for prediction.
+- Document frequency is not penalized, as this is not an Information Retrieval task.
 
 ### Recommendations
 
-Looking at the context of words of how it is being used and linguistic features will be a better way of understanding text from a human. Of course, understanding sarcasm is one of the ongoing research which will help immensely in machine interpretability and higher accuracy rates.
+To improve model performance, future efforts could focus on incorporating contextual understanding of words and linguistic features. Sentiment analysis could be a valuable addition, given the personal and emotional nature of many posts in these Subreddits. Additionally, features such as post length or the presence of specific keywords could be explored to enhance accuracy.
 
-Sentiment analysis can be one interesting feature to input into the model to see if it will improve performance since these are subreddits that can potentially be very personal.
-
-Additionally, more features like length of posts can be identified and input into the model to see if it will increase accuracy scores.
+Ultimately, the goal is to develop a model that not only achieves high accuracy but also provides interpretable and meaningful results. By leveraging interpretable models like Logistic Regression or Naive-Bayes, we can ensure that the classification outcomes align with human understanding and expectations.
